@@ -10,20 +10,52 @@ html, body, .application {
   height: 100%;
 }
 
+.leaflet-control-layers-overlays {
 
-.leaflet-control-layers span span {
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	background-size: 10px 25px;
+  label {
+    position: relative;
+
+    > span {
+    	position: static;
+    	margin-left: 15px;
+
+      span {
+        width: 10px;
+        height: 17px;
+        background-position: 0px 2px;
+        background-repeat: no-repeat;
+        background-size: 10px 25px;
+        position: absolute;
+        margin-left: -15px;
+      }
+    }
+  }
 }
 
+.star-0000ff {
+  background-image: url('../img/pin-s-star+0000ff.png');
+}
+.star-00ff00 {
+  background-image: url('../img/pin-s-star+00ff00.png');
+}
+.star-00ffff {
+  background-image: url('../img/pin-s-star+00ffff.png');
+}
+.star-9900ff {
+  background-image: url('../img/pin-s-star+9900ff.png');
+}
+.star-cc00ff {
+  background-image: url('../img/pin-s-star+cc00ff.png');
+}
 .star-ff0000 {
-	background: url('../img/pin-s-star+ff0000.png') no-repeat 0 5px;
+  background-image: url('../img/pin-s-star+ff0000.png');
 }
 .star-ff00ff {
-	background: url('../img/pin-s-star+ff00ff.png') no-repeat 0 5px;
+  background-image: url('../img/pin-s-star+ff00ff.png');
 }
 .star-ff9900 {
-	background: url('../img/pin-s-star+ff9900.png') no-repeat 0 5px;
+  background-image: url('../img/pin-s-star+ff9900.png');
+}
+.star-ffff00 {
+  background-image: url('../img/pin-s-star+ffff00.png');
 }
