@@ -9,3 +9,21 @@ html, body, .application {
 .map {
   height: 100%;
 }
+
+
+.leaflet-control-layers span span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-size: 10px 25px;
+}
+
+.star-ff0000 {
+	background: url('../img/pin-s-star+ff0000.png') no-repeat 0 5px;
+}
+.star-ff00ff {
+	background: url('../img/pin-s-star+ff00ff.png') no-repeat 0 5px;
+}
+.star-ff9900 {
+	background: url('../img/pin-s-star+ff9900.png') no-repeat 0 5px;
+}

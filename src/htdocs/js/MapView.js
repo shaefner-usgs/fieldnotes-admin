@@ -116,12 +116,16 @@ var MapView = function (options) {
 
     // add layer to map & controller if not already present
     Object.keys(_observations.layers).forEach(function (name) {
-      var layer;
+      var cssClass,
+          html,
+          layer;
 
       layer = _observations.layers[name];
       if (!_map.hasLayer(layer)) {
+        cssClass = _observations.markers[name].replace('+', '-');
+        html = '<span class="' + cssClass + '"></span>' + name;
         layer.addTo(_map);
-        _layerController.addOverlay(layer, name);
+        _layerController.addOverlay(layer, html);
       }
     });
   };
