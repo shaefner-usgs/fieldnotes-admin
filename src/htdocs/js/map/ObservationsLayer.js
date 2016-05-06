@@ -33,7 +33,8 @@ var ObservationsLayer = function (options) {
 
       _markerOptions,
 
-      _addPopup;
+      _addPopup,
+      _getCustomProps;
 
 
   _this = {};
@@ -56,27 +57,70 @@ var ObservationsLayer = function (options) {
   };
 
 
-  _addPopup = function (marker, json) {
-    var popup,
-        popupTemplate;
+  _addPopup = function (marker, model) {
+    var coords,
+        img,
+        popup,
+        props,
+        popupTemplate,
+        table,
+        title;
+
+    coords = model.getCoords('string');
+    props = model.toJSON().properties;
+    table = _getCustomProps(props);
+    img = '';
+
+    if (props.attachment) {
+      img = '<img src="{attachment}" alt="site photo" />';
+    }
+    title = 'accuracy: &plusmn; {accuracy}m';
+    if (props.zaccuracy) {
+      title += ' (z: {zaccuracy}m)';
+    }
 
     popupTemplate = '<div class="popup">' +
-      '<h2>{form}</h2>' +
+      '<h2>{site} ({form})</h2>' +
+      '<time>{timestamp} {timezone}</time>' +
+      '<h3 title="' + title + '">{description} ' + coords + '</h3>' +
+      '<p class="notes">{notes}</p>' +
+      img + table +
+      '<p class="operator"><a href="mailto:{operator}">{operator}</a></p>' +
       '</div>';
 
-    popup = L.Util.template(popupTemplate, json.properties);
+    popup = L.Util.template(popupTemplate, props);
 
     marker.bindPopup(popup);
   };
 
-  _this.addMarker = function (json) {
-    var lat,
-        lon,
+  _getCustomProps = function (props) {
+    var skipProps,
+        table;
+
+    // each form has custom props; loop thru and skip the 'common' props
+    skipProps = ['form', 'timestamp', 'timezone', 'recorded', 'synced',
+      'operator', 'site', 'attachment', 'notes', 'description', 'accuracy',
+      'zaccuracy', 'igid'];
+
+    table = '<table>';
+    Object.keys(props).forEach(function (key) {
+      if (skipProps.indexOf(key) === -1) {
+        table += '<tr><th>' + key + '</th><td>' + props[key] + '</td></tr>';
+      }
+    });
+    table += '</table>';
+
+    return table;
+  };
+
+  _this.addMarker = function (model) {
+    var coords,
         form,
+        json,
         marker;
 
-    lat = json.geometry.coordinates[1];
-    lon = json.geometry.coordinates[0];
+    coords = model.getCoords();
+    json = model.toJSON();
     form = json.properties.form;
 
     // Create layerGroup for each type
@@ -86,10 +130,10 @@ var ObservationsLayer = function (options) {
 
     // Add marker to layerGroup
     _markerOptions.icon = Icon.getIcon(_this.markers[form]);
-    marker = L.marker([lat, lon], _markerOptions);
+    marker = L.marker([coords[1], coords[0]], _markerOptions);
     _this.layers[form].addLayer(marker);
 
-    _addPopup(marker, json);
+    _addPopup(marker, model);
   };
 
 
