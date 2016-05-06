@@ -25,7 +25,7 @@ var Icon = function (options) {
  * Create Leaflet icons
  *
  * @param key {String}
- *     contains 'shape+color' (e.g. 'triangle+red')
+ *     contains 'shape+color' (e.g. 'star+ff0000')
  *
  * @param options {Object}
  *     Leaflet Icon options (optional)
