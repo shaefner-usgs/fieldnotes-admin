@@ -111,7 +111,7 @@ var MapView = function (options) {
 
   _this.onAdd = function (added) {
     added.forEach(function (model) {
-      _observations.addMarker(model.toJSON());
+      _observations.addMarker(model);
     });
 
     // add layer to map & controller if not already present
