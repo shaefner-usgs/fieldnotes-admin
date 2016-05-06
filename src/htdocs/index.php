@@ -1,3 +1,9 @@
+<?php
+
+include_once '../conf/config.inc.php'; // app config
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +15,7 @@
 </head>
 <body>
   <div class="application"></div>
+  <script>var MOUNT_PATH = '<?php print $MOUNT_PATH; ?>';</script>
   <script src="/lib/leaflet-0.7.7/leaflet.js"></script>
   <script src="js/index.js"></script>
 </body>

@@ -9,3 +9,5 @@ if (!file_exists($CONFIG_INI_FILE)) {
 }
 
 $CONFIG = parse_ini_file($CONFIG_INI_FILE);
+
+$MOUNT_PATH = $CONFIG['MOUNT_PATH'];
