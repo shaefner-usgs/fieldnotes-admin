@@ -57,6 +57,12 @@ var ObservationsLayer = function (options) {
   };
 
 
+  /**
+   * Add Leaflet popup to marker
+   *
+   * @param marker {L.Marker}
+   * @param model {Object}
+   */
   _addPopup = function (marker, model) {
     var coords,
         img,
@@ -74,6 +80,7 @@ var ObservationsLayer = function (options) {
     if (props.attachment) {
       img = '<img src="{attachment}" alt="site photo" />';
     }
+
     title = 'accuracy: &plusmn; {accuracy}m';
     if (props.zaccuracy) {
       title += ' (z: {zaccuracy}m)';
@@ -93,18 +100,24 @@ var ObservationsLayer = function (options) {
     marker.bindPopup(popup);
   };
 
+  /**
+   * Get 'custom' props that apply only to specific observation type
+   *
+   * @param props {Object}
+   * @return table {HTML String}
+   */
   _getCustomProps = function (props) {
     var skipProps,
         table;
 
-    // each form has custom props; loop thru and skip the 'common' props
+    // skip 'common' props that apply to all types
     skipProps = ['form', 'timestamp', 'timezone', 'recorded', 'synced',
       'operator', 'site', 'attachment', 'notes', 'description', 'accuracy',
       'zaccuracy', 'igid'];
 
     table = '<table>';
     Object.keys(props).forEach(function (key) {
-      if (skipProps.indexOf(key) === -1) {
+      if (skipProps.indexOf(key) === -1) { // Add prop (not in skipProps)
         table += '<tr><th>' + key + '</th><td>' + props[key] + '</td></tr>';
       }
     });
@@ -113,6 +126,11 @@ var ObservationsLayer = function (options) {
     return table;
   };
 
+  /**
+   * Add marker to layerGroup (classified by which form user submitted)
+   *
+   * @param model {Object}
+   */
   _this.addMarker = function (model) {
     var coords,
         form,
