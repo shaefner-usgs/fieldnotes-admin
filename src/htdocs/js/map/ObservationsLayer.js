@@ -58,7 +58,7 @@ var ObservationsLayer = function (options) {
 
 
   /**
-   * Add Leaflet popup to marker
+   * Add Leaflet popup (and label) to marker
    *
    * @param marker {L.Marker}
    * @param model {Object}
@@ -66,9 +66,11 @@ var ObservationsLayer = function (options) {
   _addPopup = function (marker, model) {
     var coords,
         img,
+        label,
+        labelTemplate,
         popup,
-        props,
         popupTemplate,
+        props,
         table,
         title;
 
@@ -86,6 +88,9 @@ var ObservationsLayer = function (options) {
       title += ' (z: {zaccuracy}m)';
     }
 
+    labelTemplate = '{site} - {timestamp}';
+    label = L.Util.template(labelTemplate, props);
+
     popupTemplate = '<div class="popup">' +
       '<h2>{site} ({form})</h2>' +
       '<time>{timestamp} {timezone}</time>' +
@@ -100,7 +105,7 @@ var ObservationsLayer = function (options) {
     marker.bindPopup(popup, {
       autoPanPaddingBottomRight: [235, 60],
       autoPanPaddingTopLeft: [50, 20]
-    });
+    }).bindLabel(label);
   };
 
   /**
