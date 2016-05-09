@@ -55,7 +55,6 @@ var MapView = function (options) {
 
       layer = _observations.layers[name];
       if (!_map.hasLayer(layer)) {
-        console.log(_observations);
         cssClass = _observations.markers[name].replace('+', '-');
         html = '<span class="' + cssClass + '"></span>' + name;
         layer.addTo(_map);
