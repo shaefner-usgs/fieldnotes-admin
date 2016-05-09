@@ -97,7 +97,10 @@ var ObservationsLayer = function (options) {
 
     popup = L.Util.template(popupTemplate, props);
 
-    marker.bindPopup(popup);
+    marker.bindPopup(popup, {
+      autoPanPaddingBottomRight: [235, 60],
+      autoPanPaddingTopLeft: [50, 20]
+    });
   };
 
   /**
