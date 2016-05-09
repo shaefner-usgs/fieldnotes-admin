@@ -44,6 +44,27 @@ var MapView = function (options) {
 
 
   /**
+   * Add layer(s) to map & controller if not already present
+   * called each time the model changes
+   */
+  _this.addLayer = function () {
+    Object.keys(_observations.layers).forEach(function (name) {
+      var cssClass,
+          html,
+          layer;
+
+      layer = _observations.layers[name];
+      if (!_map.hasLayer(layer)) {
+        console.log(_observations);
+        cssClass = _observations.markers[name].replace('+', '-');
+        html = '<span class="' + cssClass + '"></span>' + name;
+        layer.addTo(_map);
+        _layerController.addOverlay(layer, html);
+      }
+    });
+  };
+
+  /**
    * Get all map layers that will be displayed on map
    *
    * @return layers {Object}
@@ -74,12 +95,11 @@ var MapView = function (options) {
       'Greyscale': greyscale,
       'Dark': dark
     };
-    layers.overlays = {}; // added dynamically by _this.onAdd
+    layers.overlays = {}; // added dynamically by _this.addLayer
     layers.defaults = [terrain];
 
     return layers;
   };
-
 
   /**
    * Create Leaflet map instance
@@ -98,7 +118,9 @@ var MapView = function (options) {
     });
 
     // Add controllers
-    _layerController = L.control.layers(layers.baseLayers, layers.overlays).addTo(_map);
+    _layerController = L.control.layers(layers.baseLayers, layers.overlays, {
+      collapsed: false
+    }).addTo(_map);
     L.control.mousePosition().addTo(_map);
     L.control.scale().addTo(_map);
 
@@ -109,25 +131,17 @@ var MapView = function (options) {
     });
   };
 
+  /**
+   * Add points - triggered when a model is added to the collection
+   *
+   * @param added {Collection}
+   */
   _this.onAdd = function (added) {
     added.forEach(function (model) {
       _observations.addMarker(model);
     });
 
-    // add layer to map & controller if not already present
-    Object.keys(_observations.layers).forEach(function (name) {
-      var cssClass,
-          html,
-          layer;
-
-      layer = _observations.layers[name];
-      if (!_map.hasLayer(layer)) {
-        cssClass = _observations.markers[name].replace('+', '-');
-        html = '<span class="' + cssClass + '"></span>' + name;
-        layer.addTo(_map);
-        _layerController.addOverlay(layer, html);
-      }
-    });
+    _this.addLayer();
   };
 
 
