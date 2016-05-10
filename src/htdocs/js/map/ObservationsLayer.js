@@ -31,6 +31,7 @@ var ObservationsLayer = function (options) {
   var _initialize,
       _this,
 
+      _bounds,
       _markerOptions,
 
       _addPopup,
@@ -42,17 +43,23 @@ var ObservationsLayer = function (options) {
   _initialize = function () {
     options = Util.extend({}, _DEFAULTS, options);
     _markerOptions = Util.extend({}, _MARKER_DEFAULTS, options.markerOptions);
+    _bounds = new L.LatLngBounds();
 
     _this.layers = {};
     _this.markers = {
       'Building': 'star+0000ff',
       'Deployment': 'star+00ff00',
-      'Fault Rupture': 'star+00ffff',
-      'General': 'star+9900ff',
+      'Checkin': 'star+00ffff',
+      'Fault Rupture': 'star+9900ff',
+      'General': 'star+cc00ff',
       'Landslide': 'star+ff0000',
       'Lifelines': 'star+ff00ff',
       'Liquefaction': 'star+ff9900',
       'Tsunami': 'star+ffff00'
+    };
+    _this.padding = {
+      bottomRight: [235, 60],
+      topLeft: [50, 20]
     };
   };
 
@@ -103,9 +110,11 @@ var ObservationsLayer = function (options) {
     popup = L.Util.template(popupTemplate, props);
 
     marker.bindPopup(popup, {
-      autoPanPaddingBottomRight: [235, 60],
-      autoPanPaddingTopLeft: [50, 20]
-    }).bindLabel(label);
+      autoPanPaddingBottomRight: _this.padding.bottomRight,
+      autoPanPaddingTopLeft: _this.padding.topLeft
+    }).bindLabel(label, {
+      pane: 'popupPane'
+    });
   };
 
   /**
@@ -143,6 +152,7 @@ var ObservationsLayer = function (options) {
     var coords,
         form,
         json,
+        latlng,
         marker;
 
     coords = model.getCoords();
@@ -156,10 +166,20 @@ var ObservationsLayer = function (options) {
 
     // Add marker to layerGroup
     _markerOptions.icon = Icon.getIcon(_this.markers[form]);
-    marker = L.marker([coords[1], coords[0]], _markerOptions);
+    latlng = [coords[1], coords[0]];
+    marker = L.marker(latlng, _markerOptions);
     _this.layers[form].addLayer(marker);
 
+    _bounds.extend(latlng);
+
     _addPopup(marker, model);
+  };
+
+  /**
+   * Get map bounds that fit all points within extent
+   */
+  _this.getBounds = function () {
+    return _bounds;
   };
 
 
