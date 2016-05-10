@@ -87,7 +87,7 @@ var ObservationsLayer = function (options) {
     img = '';
 
     if (props.attachment) {
-      img = '<img src="{attachment}" alt="site photo" />';
+      img = '<a href="{attachment}"><img src="{attachment}" alt="photo" /></a>';
     }
 
     title = 'accuracy: &plusmn; {accuracy}m';
@@ -175,6 +175,8 @@ var ObservationsLayer = function (options) {
 
   /**
    * Get map bounds that fit all points within extent
+   *
+   * return {L.LatLngBounds}
    */
   _this.getBounds = function () {
     return _bounds;
