@@ -47,6 +47,9 @@ var MapView = function (options) {
   };
 
 
+  /**
+   * Add an option in sidebar to zoom map to new features
+   */
   _this.addZoomOption = function () {
     var layers,
         html,
@@ -67,7 +70,7 @@ var MapView = function (options) {
 
   /**
    * Add layer(s) to map & controller if not already present
-   * called each time the model changes
+   * (called each time the model changes)
    */
   _this.addLayer = function () {
     Object.keys(_observations.layers).forEach(function (name) {
@@ -127,7 +130,7 @@ var MapView = function (options) {
   };
 
   /**
-   * Load earthquakes GeoJSON
+   * Load earthquakes GeoJSON data and add it to the layer
    */
   _this.loadEqsLayer = function () {
     Xhr.ajax({
@@ -171,7 +174,7 @@ var MapView = function (options) {
   };
 
   /**
-   * Add points - triggered when a model is added to the collection
+   * Add points - triggered when the model is updated
    *
    * @param added {Collection}
    */
@@ -194,12 +197,12 @@ var MapView = function (options) {
   };
 
   /**
-   *
+   * Set map bounds: show all points on initial load
+   * otherwise use settings conatined in localStorage
    */
   _this.setBounds = function () {
     var mapView;
 
-    // on initial load, set to extent of points; otherwise set to user's extent
     mapView = JSON.parse(window.localStorage.getItem('mapView')) || {};
     if (!mapView.hasOwnProperty('_global_')) { // initial load
       _map.fitBounds(_observations.getBounds(), {
