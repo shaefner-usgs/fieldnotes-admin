@@ -1,6 +1,10 @@
 $sidebar-width: 200px;
 
 
+.leaflet-control-layers-selector {
+	top: 0px;
+}
+
 .leaflet-control-attribution {
   max-width: $sidebar-width;
   background: #eee !important;
@@ -17,6 +21,11 @@ $sidebar-width: 200px;
   border-radius: 0;
   margin: 0 !important;
   background: #eee;
+
+  label {
+  	font-size: 14px;
+  	line-height: 1.8;
+  }
 }
 
 /* icons in layer list */
@@ -27,16 +36,16 @@ $sidebar-width: 200px;
 
     > span {
       position: static;
-      margin-left: 15px;
+      margin-left: 18px;
 
       span {
-        width: 10px;
-        height: 17px;
-        background-position: 0px 2px;
+        width: 12px;
+        height: 20px;
+        background-position: 0px 3px;
         background-repeat: no-repeat;
-        background-size: 10px 25px;
+        background-size: 12px 30px;
         position: absolute;
-        margin-left: -15px;
+        margin-left: -18px;
       }
     }
   }
