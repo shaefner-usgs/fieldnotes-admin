@@ -93,9 +93,9 @@ var ObservationManager = function (options) {
       // synced is only set when an "old" record that was recorded offline is added
       // it will be set to the datetime when the feature was synced
       if (observation.getProperty('synced')) {
-        time = Moment(observation.getProperty('synced')).valueOf();
+        time = Moment.utc(observation.getProperty('synced')).valueOf();
       } else {
-        time = Moment(observation.getProperty('recorded')).valueOf();
+        time = Moment.utc(observation.getProperty('recorded')).valueOf();
       }
 
       if (!lastObservationTime || time > lastObservationTime) {
