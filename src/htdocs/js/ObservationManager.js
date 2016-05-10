@@ -2,7 +2,7 @@
 
 
 var Collection = require('mvc/Collection'),
-    moment = require('moment'),
+    Moment = require('moment'),
     Observation = require('Observation'),
     Util = require('util/Util'),
     Xhr = require('util/Xhr');
@@ -93,9 +93,9 @@ var ObservationManager = function (options) {
       // synced is only set when an "old" record that was recorded offline is added
       // it will be set to the datetime when the feature was synced
       if (observation.getProperty('synced')) {
-        time = moment(observation.getProperty('synced')).valueOf();
+        time = Moment(observation.getProperty('synced')).valueOf();
       } else {
-        time = moment(observation.getProperty('recorded')).valueOf();
+        time = Moment(observation.getProperty('recorded')).valueOf();
       }
 
       if (!lastObservationTime || time > lastObservationTime) {
