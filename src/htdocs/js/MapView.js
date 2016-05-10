@@ -183,7 +183,7 @@ var MapView = function (options) {
     added.forEach(function (model) {
       _observations.addMarker(model);
       if (checked) {
-        _map.setView(model.getCoords(), 10);
+        _map.setView(model.getCoords(), 14);
       }
     });
 
