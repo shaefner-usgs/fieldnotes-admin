@@ -2,7 +2,8 @@
 'use strict';
 
 
-var View = require('mvc/View');
+var View = require('mvc/View'),
+    Xhr = require('util/Xhr');
 
 // Leaflet plugins
 require('map/MousePosition');
@@ -10,6 +11,7 @@ require('map/Restoreview');
 
 // Factories for creating map layers
 require('map/DarkLayer');
+require('map/EarthquakesLayer');
 require('map/GreyscaleLayer');
 require('map/ObservationsLayer.js');
 require('map/SatelliteLayer');
@@ -26,6 +28,7 @@ var MapView = function (options) {
   var _this,
       _initialize,
 
+      _earthquakes,
       _layerController,
       _map,
       _observations;
@@ -80,12 +83,14 @@ var MapView = function (options) {
         satellite,
         terrain;
 
+    _this.loadEqsLayer();
+    _earthquakes = L.earthquakesLayer();
+    _observations = L.observationsLayer();
+
     dark = L.darkLayer();
     greyscale = L.greyscaleLayer();
     satellite = L.satelliteLayer();
     terrain = L.terrainLayer();
-
-    _observations = L.observationsLayer();
 
     layers = {};
     layers.baseLayers = {
@@ -94,10 +99,27 @@ var MapView = function (options) {
       'Satellite': satellite,
       'Terrain': terrain
     };
-    layers.overlays = {}; // added dynamically by _this.addLayer
+    layers.overlays = {
+      '<span class="earthquakes"><svg><circle cx="6" cy="12" r="5" stroke="#333333" stroke-width="1" fill="#ffffff"></circle></svg></span>M 2.5+ Earthquakes': _earthquakes
+    }; // observations dynamically by _this.addLayer
     layers.defaults = [dark];
 
     return layers;
+  };
+
+  /**
+   * Load earthquakes GeoJSON
+   */
+  _this.loadEqsLayer = function () {
+    Xhr.ajax({
+      url: 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson',
+      success: function (data) {
+        _earthquakes.addData(data);
+      },
+      error: function (status) {
+        console.log(status);
+      }
+    });
   };
 
   /**
