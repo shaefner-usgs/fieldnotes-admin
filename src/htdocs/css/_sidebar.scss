@@ -1,15 +1,6 @@
 $sidebar-width: 200px;
 
 
-.leaflet-control-layers-selector {
-	top: -1px;
-}
-
-.leaflet-control-attribution {
-  max-width: $sidebar-width;
-  background: #eee !important;
-}
-
 .leaflet-top.leaflet-right {
   height: 100%;
   width: $sidebar-width;
@@ -23,9 +14,12 @@ $sidebar-width: 200px;
   background: #eee;
 
   label {
-  	font-size: 14px;
-  	line-height: 1.8;
+    font-size: 14px;
+    line-height: 1.8;
   }
+}
+.leaflet-control-layers-selector {
+  top: -1px;
 }
 
 /* icons in layer list */
@@ -80,4 +74,15 @@ $sidebar-width: 200px;
 }
 .star-ffff00 {
   background-image: url('../img/pin-s-star+ffff00.png');
+}
+
+.autoZoom span {
+  display: block;
+  margin: -22px 0 0 20px;
+  line-height: 1.4;
+}
+
+.leaflet-control-attribution {
+  max-width: $sidebar-width;
+  background: #eee !important;
 }

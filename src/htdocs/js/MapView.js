@@ -43,8 +43,27 @@ var MapView = function (options) {
     _this.data.on('add', _this.onAdd);
 
     _this.initMap();
+    _this.addZoomOption();
   };
 
+
+  _this.addZoomOption = function () {
+    var layers,
+        html,
+        separator;
+
+    separator = document.createElement('div');
+    separator.classList.add('leaflet-control-layers-separator');
+
+    html = document.createElement('div');
+    html.classList.add('autoZoom');
+    html.innerHTML = '<label><input type="checkbox" name="autoZoom" id="autoZoom">' +
+      '<span>Zoom map to new features as they are added</span></label>';
+
+    layers = options.el.querySelector('.leaflet-control-layers');
+    layers.appendChild(separator);
+    layers.appendChild(html);
+  };
 
   /**
    * Add layer(s) to map & controller if not already present
@@ -157,23 +176,38 @@ var MapView = function (options) {
    * @param added {Collection}
    */
   _this.onAdd = function (added) {
-    var mapView;
+    var checked;
+
+    checked = document.getElementById('autoZoom').checked;
 
     added.forEach(function (model) {
       _observations.addMarker(model);
+      if (checked) {
+        _map.setView(model.getCoords(), 10);
+      }
     });
 
-    // Set map extent to stored bounds or to extent of points
+    if (!checked) {
+      _this.setBounds();
+    }
+    _this.addLayer();
+  };
+
+  /**
+   *
+   */
+  _this.setBounds = function () {
+    var mapView;
+
+    // on initial load, set to extent of points; otherwise set to user's extent
     mapView = JSON.parse(window.localStorage.getItem('mapView')) || {};
-    if (!mapView.hasOwnProperty('_global_')) {
+    if (!mapView.hasOwnProperty('_global_')) { // initial load
       _map.fitBounds(_observations.getBounds(), {
         animate: false,
         paddingBottomRight: _observations.padding.bottomRight,
         paddingTopLeft: _observations.padding.topLeft
       });
     }
-
-    _this.addLayer();
   };
 
 
