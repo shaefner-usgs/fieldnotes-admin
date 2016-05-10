@@ -32,8 +32,8 @@ var Observation = function (options) {
     geometry = _this.get('geometry') || {};
 
     if (geometry.hasOwnProperty('coordinates')) {
+      coords = geometry.coordinates;
       if (format === 'string') {
-        coords = geometry.coordinates;
         lat = [Math.abs(coords[1]).toFixed(2), '&deg;',
           (coords[1] < 0 ? 'S':'N')].join('');
         lon = [Math.abs(coords[0]).toFixed(2), '&deg;',
@@ -45,7 +45,7 @@ var Observation = function (options) {
         }
         return str;
       } else {
-        return geometry.coordinates;
+        return [coords[1], coords[0]];
       }
     }
 

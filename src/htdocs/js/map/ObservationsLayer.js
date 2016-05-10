@@ -149,13 +149,12 @@ var ObservationsLayer = function (options) {
    * @param model {Object}
    */
   _this.addMarker = function (model) {
-    var coords,
-        form,
+    var form,
         json,
         latlng,
         marker;
 
-    coords = model.getCoords();
+    latlng = model.getCoords();
     json = model.toJSON();
     form = json.properties.form;
 
@@ -166,7 +165,6 @@ var ObservationsLayer = function (options) {
 
     // Add marker to layerGroup
     _markerOptions.icon = Icon.getIcon(_this.markers[form]);
-    latlng = [coords[1], coords[0]];
     marker = L.marker(latlng, _markerOptions);
     _this.layers[form].addLayer(marker);
 
