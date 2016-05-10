@@ -49,8 +49,8 @@ var ObservationsLayer = function (options) {
     _this.markers = {
       'Building': 'star+0000ff',
       'Deployment': 'star+00ff00',
-      'Checkin': 'star+00ffff',
-      'Fault Rupture': 'star+9900ff',
+      'Checkin': 'embassy+999999',
+      'Fault Rupture': 'star+00ffff',
       'General': 'star+cc00ff',
       'Landslide': 'star+ff0000',
       'Lifelines': 'star+ff00ff',
