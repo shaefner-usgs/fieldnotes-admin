@@ -89,13 +89,13 @@ var MapView = function (options) {
 
     layers = {};
     layers.baseLayers = {
-      'Terrain': terrain,
-      'Satellite': satellite,
+      'Dark': dark,
       'Greyscale': greyscale,
-      'Dark': dark
+      'Satellite': satellite,
+      'Terrain': terrain
     };
     layers.overlays = {}; // added dynamically by _this.addLayer
-    layers.defaults = [terrain];
+    layers.defaults = [dark];
 
     return layers;
   };
@@ -112,7 +112,6 @@ var MapView = function (options) {
     _map = L.map(_this.el, {
       center: [38, -121],
       layers: layers.defaults,
-      scrollWheelZoom: false,
       zoom: 7
     });
 
@@ -136,9 +135,21 @@ var MapView = function (options) {
    * @param added {Collection}
    */
   _this.onAdd = function (added) {
+    var mapView;
+
     added.forEach(function (model) {
       _observations.addMarker(model);
     });
+
+    // Set map extent to stored bounds or to extent of points
+    mapView = JSON.parse(window.localStorage.getItem('mapView')) || {};
+    if (!mapView.hasOwnProperty('_global_')) {
+      _map.fitBounds(_observations.getBounds(), {
+        animate: false,
+        paddingBottomRight: _observations.padding.bottomRight,
+        paddingTopLeft: _observations.padding.topLeft
+      });
+    }
 
     _this.addLayer();
   };
