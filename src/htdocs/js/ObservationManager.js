@@ -23,8 +23,9 @@ var ObservationManager = function (options) {
   _initialize = function (options) {
     options = Util.extend({}, _DEFAULTS, options);
 
-    // default to one month ago
-    _lastObservationTime = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
+    // default: map will only show points collected after this time
+    _lastObservationTime = Moment('2016-05-11T09:00:00').utc().format('x');
+
     _url = options.url;
 
     _this.data = Collection();
