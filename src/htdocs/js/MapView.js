@@ -179,14 +179,26 @@ var MapView = function (options) {
    * @param added {Collection}
    */
   _this.onAdd = function (added) {
-    var checked;
+    var checked,
+        count,
+        last,
+        length;
 
     checked = document.getElementById('autoZoom').checked;
 
+    // add point(s) and 'show' last point added on map if option is enabled
+    count = 0;
+    length = added.length;
     added.forEach(function (model) {
       _observations.addMarker(model);
-      if (checked) {
+
+      count ++;
+      if (count === length) {
+        last = true;
+      }
+      if (checked && last) {
         _map.setView(model.getCoords(), 14);
+        _observations.openPopup(model.toJSON().id);
       }
     });
 

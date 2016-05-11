@@ -33,6 +33,7 @@ var ObservationsLayer = function (options) {
 
       _bounds,
       _markerOptions,
+      _markers,
 
       _addPopup,
       _getCustomProps;
@@ -43,7 +44,9 @@ var ObservationsLayer = function (options) {
   _initialize = function () {
     options = Util.extend({}, _DEFAULTS, options);
     _markerOptions = Util.extend({}, _MARKER_DEFAULTS, options.markerOptions);
+
     _bounds = new L.LatLngBounds();
+    _markers = {};
 
     _this.layers = {};
     _this.markers = {
@@ -115,6 +118,9 @@ var ObservationsLayer = function (options) {
     }).bindLabel(label, {
       pane: 'popupPane'
     });
+
+    // Store point so its popup can be accessed by openPopup()
+    _markers[model.toJSON().id] = marker;
   };
 
   /**
@@ -180,6 +186,10 @@ var ObservationsLayer = function (options) {
    */
   _this.getBounds = function () {
     return _bounds;
+  };
+
+  _this.openPopup = function (id) {
+    _markers[id].openPopup();
   };
 
 
