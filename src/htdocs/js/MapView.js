@@ -134,7 +134,7 @@ var MapView = function (options) {
    */
   _this.loadEqsLayer = function () {
     Xhr.ajax({
-      url: 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson',
+      url: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson',
       success: function (data) {
         _earthquakes.addData(data);
       },

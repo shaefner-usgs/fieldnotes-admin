@@ -8,7 +8,7 @@ var Collection = require('mvc/Collection'),
     Xhr = require('util/Xhr');
 
 var _DEFAULTS = {
-  url: 'http://bayquakealliance.org/fieldnotes/features.json.php'
+  url: 'https://bayquakealliance.org/fieldnotes/features.json.php'
 };
 
 var ObservationManager = function (options) {
